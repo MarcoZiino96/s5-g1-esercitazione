@@ -12,28 +12,46 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-@Component("ordine")
+
 @Data
 public class Ordine {
 
-    private List<Prodotto> elementiMenu = new ArrayList<>();
+    private List<Pizza> pizze;
+    private List<Bevanda> drinks;
+    private static int contatore = 1;
     private int numeroOrdine;
     private Stato statoOrdine;
     private int numeroCoperti;
-    private double costoCoperto;
     private LocalTime acqusizione;
-
-    @Autowired
-    @Qualifier("tavolo")
     private Tavolo tavolo;
     private double importoMassimo;
 
+
     @PostConstruct
-    public void importoMassimo(){
-        if (elementiMenu != null){
-           importoMassimo = (numeroCoperti * costoCoperto) + (elementiMenu.stream().mapToDouble(Prodotto::getPrice).reduce(0,Double::sum));
-        }else{
-            importoMassimo = 0;
-        }
+    public double totaleOrdine(){
+        double totale = tavolo.getCostoCoperto()*numeroCoperti;
+
+        totale = totale + pizze.stream().mapToDouble(Pizza::getPrice).sum() +
+                drinks.stream().mapToDouble(Bevanda::getPrice).sum();
+                return totale;
+    }
+
+    public Ordine(Tavolo tavolo, int numeroCoperti) throws Exception{
+        if (numeroCoperti <= tavolo.getNumeroMassimo())
+            this.numeroCoperti = numeroCoperti;
+        else
+                throw new Exception("Numero Massimo coperti superato");
+
+        if (tavolo.getStatoTavolo().equals(StatoTavolo.LIBERO))
+            this.tavolo = tavolo;
+        else
+            throw  new Exception("Tavolo occupato");
+
+        numeroOrdine = contatore++;
+        statoOrdine = Stato.IN_CORSO;
+        acqusizione = LocalTime.now();
+        drinks = new ArrayList<>();
+        pizze= new ArrayList<>();
+
     }
 }

@@ -2,13 +2,18 @@ package it.epicode.s5.g1.bean;
 
 
 import it.epicode.s5.g1.AppConfig;
-import it.epicode.s5.g1.Application;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Component
 public class Runner implements CommandLineRunner {
+
+    private Logger logger = LoggerFactory.getLogger("s5.g1");
     @Override
     public void run(String... args) throws Exception {
 
@@ -18,10 +23,24 @@ public class Runner implements CommandLineRunner {
 
         m.stampaMenu();
 
-        AnnotationConfigApplicationContext ctx1 = new AnnotationConfigApplicationContext(Application.class);
+        Tavolo tavolo = ctx.getBean("tavolo1",Tavolo.class);
 
-        Ordine o = ctx1.getBean("ordine", Ordine.class);
-        System.out.println(o);
+        Ordine ordine1 = new Ordine(tavolo, 6);
+
+       List<Pizza> pizze = m.getPizzas();
+       List<Bevanda> bevande = m.getDrinks();
+
+       ordine1.setPizze(pizze);
+       ordine1.setDrinks(bevande);
+
+      logger.info(String.valueOf(ordine1));
+        logger.info(String.valueOf(ordine1.totaleOrdine()));
+
+
+
+
+
+
 
 
 

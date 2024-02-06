@@ -76,15 +76,15 @@ public class AppConfig {
         return p;
     }
 
-//    @Bean("ascolana")
-//    public Pizza getAscolana(){
-//        Pizza p = new Pizza();
-//        p.setNome("ascolana");
-//        p.setIngredienti(List.of(getMozzarella(),getPomodoro(),getSalame(), getOlive()));
-//        p.setColories(getDiavola().getColories()+getAscolana().getColories());
-//        p.setPrice(getDiavola().getPrice() + getOlive().getPrice());
-//        return p;
-//    }
+    @Bean("ascolana")
+    public Pizza getAscolana(){
+        Pizza p = new Pizza();
+        p.setNome("ascolana");
+        p.setIngredienti(List.of(getMozzarella(),getPomodoro(),getSalame(), getOlive()));
+        p.setColories(getDiavola().getColories()+getOlive().getColories());
+        p.setPrice(getDiavola().getPrice() + getOlive().getPrice());
+        return p;
+    }
 
     @Bean("acqua")
     public Bevanda getAcqua(){
@@ -95,32 +95,33 @@ public class AppConfig {
         return  b;
     }
 
-    @Bean("tavolo")
-    public Tavolo tavolo(){
+    @Bean("tavolo1")
+    public Tavolo tavolo(@Value("${s5.g1.costoCoperto}") String coperto){
         Tavolo t = new Tavolo();
         t.setNumeroTavolo(1);
-        t.setStatoTavolo(StatoTavolo.OCCUPATO);
-        t.setNumeroMassimo(4);
+        t.setStatoTavolo(StatoTavolo.LIBERO);
+        t.setNumeroMassimo(7);
+        t.setCostoCoperto(Double.parseDouble(coperto));
         return t;
     }
 
-    @Bean("ordine")
-    public Ordine ordine(@Value("${s5.g1.costoCoperto}") String coperto){
-        Ordine o = new Ordine();
-        o.setCostoCoperto(Double.parseDouble(coperto));
-        o.setNumeroOrdine(1);
-        o.setNumeroCoperti(4);
-        o.setElementiMenu(List.of(getAcqua(),getMargherita(),getDiavola()));
-        o.setStatoOrdine(Stato.IN_CORSO);
-        o.setTavolo(tavolo());
-        o.setAcqusizione(LocalTime.now());
-        return o;
-    }
+//    @Bean("ordine")
+//    public Ordine ordine(@Value("${s5.g1.costoCoperto}") String coperto){
+//        Ordine o = new Ordine();
+//        o.setCostoCoperto(Double.parseDouble(coperto));
+//        o.setNumeroOrdine(1);
+//        o.setNumeroCoperti(4);
+//        o.setElementiMenu(List.of(getAcqua(),getMargherita(),getDiavola(),getAscolana()));
+//        o.setStatoOrdine(Stato.IN_CORSO);
+//        o.setTavolo(tavolo());
+//        o.setAcqusizione(LocalTime.now());
+//        return o;
+//    }
 
     @Bean("menu")
     public Menu getMenu(){
         Menu m = new Menu();
-        m.setPizzas(List.of(getDiavola(),getMargherita()));
+        m.setPizzas(List.of(getDiavola(),getMargherita(), getAscolana()));
         m.setToppings(List.of(getMozzarella(),getOlive(),getSalame(),getPomodoro()));
         m.setDrinks(List.of(getAcqua()));
         return m;
