@@ -14,13 +14,13 @@ public class Application {
 
 	public static void main(String[] args) {
 
-		SpringApplication.run(Application.class, args);
-
-		AnnotationConfigApplicationContext ctx = new AnnotationConfigApplicationContext(AppConfig.class);
-
-		Menu menu = ctx.getBean("menu", Menu.class);
-
-		System.out.println(menu);
+	SpringApplication.run(Application.class, args);
+//
+//		AnnotationConfigApplicationContext ctx = new AnnotationConfigApplicationContext(AppConfig.class);
+//
+//		Menu menu = ctx.getBean("menu", Menu.class);
+//
+//		System.out.println(menu);
 	}
 
 }

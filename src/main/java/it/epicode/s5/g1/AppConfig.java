@@ -1,18 +1,19 @@
 package it.epicode.s5.g1;
 
 
-import it.epicode.s5.g1.bean.Ingrediente;
-import it.epicode.s5.g1.bean.Menu;
-import it.epicode.s5.g1.bean.Pizza;
-import it.epicode.s5.g1.bean.Prodotto;
+import it.epicode.s5.g1.bean.*;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.annotation.Scope;
 
+import java.time.LocalTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Configuration
+@PropertySource("application.properties")
 public class AppConfig {
 
     @Bean("salame")
@@ -60,6 +61,8 @@ public class AppConfig {
         Pizza p = new Pizza();
         p.setNome("margherita");
         p.setIngredienti(List.of(getMozzarella(),getPomodoro()));
+        p.setColories(1000 + getPomodoro().getColories()+getMozzarella().getColories());
+        p.setPrice( 3 + getMozzarella().getPrice()+getPomodoro().getPrice());
         return p;
     }
 
@@ -67,23 +70,59 @@ public class AppConfig {
     public Pizza getDiavola(){
         Pizza p = new Pizza();
         p.setNome("diavola");
-        p.setIngredienti(List.of(getMozzarella(),getPomodoro(), getSalame()));
+        p.setIngredienti(List.of( getMozzarella(),getPomodoro(),getSalame()));
+        p.setColories(getMargherita().getColories()+ getSalame().getColories());
+        p.setPrice(getMargherita().getPrice() + getSalame().getPrice());
         return p;
     }
 
-    @Bean("ascolana")
-    public Pizza getAscolana(){
-        Pizza p = new Pizza();
-        p.setNome("ascolana");
-        p.setIngredienti(List.of(getMozzarella(),getPomodoro(), getSalame(), getOlive()));
-        return p;
+//    @Bean("ascolana")
+//    public Pizza getAscolana(){
+//        Pizza p = new Pizza();
+//        p.setNome("ascolana");
+//        p.setIngredienti(List.of(getMozzarella(),getPomodoro(),getSalame(), getOlive()));
+//        p.setColories(getDiavola().getColories()+getAscolana().getColories());
+//        p.setPrice(getDiavola().getPrice() + getOlive().getPrice());
+//        return p;
+//    }
+
+    @Bean("acqua")
+    public Bevanda getAcqua(){
+        Bevanda b = new Bevanda();
+        b.setColories(0);
+        b.setNome("acqua");
+        b.setPrice(1);
+        return  b;
+    }
+
+    @Bean("tavolo")
+    public Tavolo tavolo(){
+        Tavolo t = new Tavolo();
+        t.setNumeroTavolo(1);
+        t.setStatoTavolo(StatoTavolo.OCCUPATO);
+        t.setNumeroMassimo(4);
+        return t;
+    }
+
+    @Bean("ordine")
+    public Ordine ordine(@Value("${s5.g1.costoCoperto}") String coperto){
+        Ordine o = new Ordine();
+        o.setCostoCoperto(Double.parseDouble(coperto));
+        o.setNumeroOrdine(1);
+        o.setNumeroCoperti(4);
+        o.setElementiMenu(List.of(getAcqua(),getMargherita(),getDiavola()));
+        o.setStatoOrdine(Stato.IN_CORSO);
+        o.setTavolo(tavolo());
+        o.setAcqusizione(LocalTime.now());
+        return o;
     }
 
     @Bean("menu")
     public Menu getMenu(){
         Menu m = new Menu();
-        m.setPizzas(List.of(getAscolana(),getDiavola(),getMargherita()));
+        m.setPizzas(List.of(getDiavola(),getMargherita()));
         m.setToppings(List.of(getMozzarella(),getOlive(),getSalame(),getPomodoro()));
+        m.setDrinks(List.of(getAcqua()));
         return m;
     }
 }

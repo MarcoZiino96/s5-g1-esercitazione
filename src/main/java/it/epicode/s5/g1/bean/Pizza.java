@@ -4,6 +4,7 @@ package it.epicode.s5.g1.bean;
 import lombok.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Data
 public class Pizza extends Prodotto{
@@ -16,7 +17,4 @@ public class Pizza extends Prodotto{
                 '}';
     }
 
-    public void setPrice(){
-        setPrice(ingredienti.stream().);
-    }
 }
