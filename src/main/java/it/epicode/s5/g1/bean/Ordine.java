@@ -27,7 +27,7 @@ public class Ordine {
     private double importoMassimo;
 
 
-    @PostConstruct
+
     public double totaleOrdine(){
         double totale = tavolo.getCostoCoperto()*numeroCoperti;
 
