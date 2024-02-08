@@ -118,12 +118,12 @@ public class AppConfig {
 //        return o;
 //    }
 
-    @Bean("menu")
-    public Menu getMenu(){
-        Menu m = new Menu();
-        m.setPizzas(List.of(getDiavola(),getMargherita(), getAscolana()));
-        m.setToppings(List.of(getMozzarella(),getOlive(),getSalame(),getPomodoro()));
-        m.setDrinks(List.of(getAcqua()));
-        return m;
-    }
+//    @Bean("menu")
+//    public Menu getMenu(){
+//        Menu m = new Menu();
+//        m.setPizzas(List.of(getDiavola(),getMargherita(), getAscolana()));
+//        m.setToppings(List.of(getMozzarella(),getOlive(),getSalame(),getPomodoro()));
+//        m.setDrinks(List.of(getAcqua()));
+//        return m;
+//    }
 }
