@@ -1,5 +1,6 @@
 package it.epicode.s5.g1.service;
 
+import it.epicode.s5.g1.bean.Ingrediente;
 import it.epicode.s5.g1.bean.Pizza;
 import it.epicode.s5.g1.bean.Prodotto;
 import it.epicode.s5.g1.repository.ProdottoRepository;
@@ -27,5 +28,8 @@ public class ProdottoService {
 
   public List<Pizza> cercaPizzaPerIngrediente(String nome){
       return prodottoRepository.findPizzaForTopping(nome);
+  }
+  public  List<Ingrediente> cercaIngredientiPerPizza(String nome){
+        return prodottoRepository.findIngr(nome);
   }
 }

@@ -73,6 +73,8 @@ public class Runner implements CommandLineRunner {
 
 
        prodottoService.cercaPizzaPerIngrediente("margherita").forEach(System.out::println);
+       prodottoService.cercaIngredientiPerPizza("margherita").forEach(System.out::println);
+
 
 
 

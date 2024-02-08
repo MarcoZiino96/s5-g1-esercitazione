@@ -17,6 +17,6 @@ public interface ProdottoRepository extends JpaRepository<Prodotto, Integer> {
     List<Pizza> findPizzaForTopping(String nome);
 
 
-   @Query("SELECT p FROM Pizza.ingredienti WHERE p.nome= :nome")
+   @Query("SELECT i FROM Pizza p JOIN p.ingredienti i WHERE p.nome= :nome")
    List<Ingrediente> findIngr(String nome);
 }
